@@ -113,7 +113,7 @@ function App() {
   return (
     <div className="glass-panel">
       <div className="header">
-        <h1>SyncTask Pro</h1>
+        <h1>SyncTask Pro 123</h1>
         <p>Elevate your productivity today</p>
       </div>
 
