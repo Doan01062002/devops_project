@@ -1,5 +1,5 @@
-import { useState, useEffect, KeyboardEvent } from 'react';
-import { Check, Edit2, Plus, Trash2, ListTodo, Calendar, Clock } from 'lucide-react';
+import { useState, useEffect, type KeyboardEvent } from 'react';
+import { Check, Edit2, Plus, Trash2, ListTodo } from 'lucide-react';
 import './index.css';
 
 interface Todo {
@@ -34,7 +34,6 @@ function App() {
   const [filter, setFilter] = useState<FilterType>('all');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editValue, setEditValue] = useState('');
-  const [priority, setPriority] = useState<'low' | 'medium' | 'high'>('medium');
 
   useEffect(() => {
     localStorage.setItem('premium-todos', JSON.stringify(todos));
@@ -47,7 +46,7 @@ function App() {
       id: crypto.randomUUID(),
       text: inputValue.trim(),
       completed: false,
-      priority,
+      priority: 'medium',
       createdAt: Date.now()
     };
     
