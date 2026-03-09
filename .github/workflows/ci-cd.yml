@@ -1,0 +1,72 @@
+name: CI/CD Pipeline Frontend
+
+on:
+  push:
+    branches:
+      - main
+      - production
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      # Login vào Docker Hub (Yêu cầu)
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Stage 1 + 2: Build Docker Image Multi-stage và Push lên Docker Hub
+      - name: Build and push Frontend Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./frontend
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/todolist-frontend:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v3
+
+      # Môi trường chạy Deploy
+      - name: Set up Deploy Directory
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            mkdir -p /home/${{ secrets.SERVER_USER }}/todolist/nginx
+
+      # Copy các file config lên server thông qua SCP
+      - name: Copy Compose and Nginx Proxy Settings via SCP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "docker-compose.yml,nginx/proxy.conf"
+          target: "/home/${{ secrets.SERVER_USER }}/todolist"
+
+      # Đăng nhập vào Server bằng SSH, Pull Img mới nhất và Chạy container
+      - name: Execute Remote SSH Commands (Deploy)
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/${{ secrets.SERVER_USER }}/todolist
+            # Cung cấp biến cho file env để docker compose sử dụng lại
+            echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" > .env
+            
+            # Pull image frontend mới và up -d
+            docker compose pull
+            docker compose up -d
