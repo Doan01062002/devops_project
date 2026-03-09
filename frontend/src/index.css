@@ -1,7 +1,9 @@
 :root {
-  --primary-color: #8b5cf6; /* Violet */
+  --primary-color: #8b5cf6;
+  /* Violet */
   --primary-hover: #7c3aed;
-  --secondary-color: #ec4899; /* Pink */
+  --secondary-color: #ec4899;
+  /* Pink */
   --bg-dark: #0f172a;
   --panel-bg: rgba(30, 41, 59, 0.65);
   --text-main: #f8fafc;
@@ -28,10 +30,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Beautiful animated mesh gradient */
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, rgba(30, 58, 138, 0.2) 0, transparent 50%), 
+  background-image:
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.15) 0, transparent 50%),
+    radial-gradient(at 50% 0%, rgba(30, 58, 138, 0.2) 0, transparent 50%),
     radial-gradient(at 100% 0%, rgba(236, 72, 153, 0.15) 0, transparent 50%);
   background-attachment: fixed;
   padding: 20px;
@@ -47,13 +48,16 @@ body {
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.2);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--border-color);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
@@ -64,6 +68,7 @@ body {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -75,6 +80,7 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+
   to {
     opacity: 0;
     transform: scale(0.95);
@@ -82,9 +88,17 @@ body {
 }
 
 @keyframes checkmark {
-  0% { transform: scale(0); }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .glass-panel {
@@ -393,9 +407,20 @@ body {
   flex-shrink: 0;
 }
 
-.priority-high { background-color: #ef4444; box-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
-.priority-medium { background-color: #f59e0b; box-shadow: 0 0 8px rgba(245, 158, 11, 0.5); }
-.priority-low { background-color: #3b82f6; box-shadow: 0 0 8px rgba(59, 130, 246, 0.5); }
+.priority-high {
+  background-color: #ef4444;
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.5);
+}
+
+.priority-medium {
+  background-color: #f59e0b;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+}
+
+.priority-low {
+  background-color: #3b82f6;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
 
 /* Confetti effect */
 .confetti {
